@@ -22,3 +22,6 @@ npx tsc
 
 executar 
 node dist/index.js
+
+compilar arquivo TS Executar arquivo gerado
+npm run start:watch

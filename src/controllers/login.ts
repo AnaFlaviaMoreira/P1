@@ -1,0 +1,10 @@
+import express, { Request, Response } from 'express';
+
+const router = express.Router();
+
+router.get('/', (req: Request, res: Response) => {
+    res.send('Bem vindo!!!testando tela de login');
+});
+
+//Exportar a intrução da rota
+export default router;
