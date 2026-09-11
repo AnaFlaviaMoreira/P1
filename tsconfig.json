@@ -5,7 +5,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "target": "esnext",
-    "types": [],
+    "types": ["node"],
 
 
     // Other Outputs
