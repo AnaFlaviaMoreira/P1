@@ -2,7 +2,7 @@ import "reflect-metadata"
 import "dotenv/config"
 import { DataSource } from "typeorm"
 
-const dialect = process.env.BD_DIALECT ?? "mysql";
+const dialect = process.env.BD_DIALECT || "mysql";
 export const AppDataSource = new DataSource({
     type: dialect as "mysql" | "postgres" | "mariadb" | "mongodb" | "mssql",
     host: process.env.BD_HOST || "localhost",
