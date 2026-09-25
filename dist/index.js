@@ -9,6 +9,6 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const login_1 = __importDefault(require("./controllers/login"));
 app.use('/', login_1.default);
-app.listen(process.env.PORT, () => {
-    console.log(`Servidor rodando na porta ${process.env.PORT}: http://localhost:${process.env.PORT}`);
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Servidor rodando na porta ${process.env.PORT || 3000}: http://localhost:${process.env.PORT || 3000}`);
 });

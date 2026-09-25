@@ -46,3 +46,14 @@ npm i dotenv --save
 
 instalar os tipos de variaveis para o typescript
 npm i --save-dev @types/dotenv
+
+
+----------
+Criar migração usada para criar a tabela no banco de dados
+npx typeorm migration:create src/migration/CreateSituationsTable
+
+npx typeorm migration:create src/migration/CreateUsersTable
+
+---------
+
+npx typeorm migration:run -d dist/data-source.js
