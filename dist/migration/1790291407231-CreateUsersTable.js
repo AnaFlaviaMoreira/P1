@@ -40,7 +40,7 @@ class CreateUsersTable1790291407231 {
                 }
             ]
         }));
-        // Criar chaves estrangeiras
+        
         await queryRunner.createForeignKey("users", new typeorm_1.TableForeignKey({
             columnNames: ["situation_id"],
             referencedTableName: "situations",

@@ -13,5 +13,5 @@ AppDataSource.initialize()
 router.get('/', (req, res) => {
     res.send('Bem vindo!!!testando tela de login');
 });
-// Exportar a instrução da rota
+
 export default router;
