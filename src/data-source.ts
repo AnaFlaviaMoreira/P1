@@ -1,6 +1,9 @@
-import "reflect-metadata"
+﻿import "reflect-metadata"
 import "dotenv/config"
 import { DataSource } from "typeorm"
+import { User } from "./entity/Users"
+import { Situations } from "./entity/Situations"
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -12,7 +15,7 @@ export const AppDataSource = new DataSource({
     username: process.env.BD_USERNAME || "root",
     password: process.env.BD_PASSWORD || "123456",
     database: process.env.BD_DATABASE || "nodeapi",
-    entities: [],
+    entities: [User, Situations],
     subscribers: [],
     synchronize: false,
     logging: true,

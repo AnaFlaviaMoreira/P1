@@ -5,12 +5,12 @@ dotenv.config();
 
 const app = express();
 
-import login from './controllers/login';
+import AuthController from './controllers/AuthController';
 
-app.use('/', login);
+app.use('/', AuthController);
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Servidor rodando na porta ${process.env.PORT || 3000}: http://localhost:${process.env.PORT || 3000}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor rodando na porta ${process.env.PORT}: http://localhost:${process.env.PORT}`);
 });
 
 

@@ -1,0 +1,17 @@
+﻿# Dependências
+node_modules/
+
+# Código compilado (gerado pelo tsc)
+dist/
+
+# Variáveis de ambiente (senhas do banco)
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+.vscode/
