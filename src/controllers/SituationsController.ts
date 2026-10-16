@@ -4,17 +4,43 @@ import { Situations } from '../entity/Situations';
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
-    res.send('Bem vindo! Tela de situações de rota');
+router.get('/:id', async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const situationRepository = AppDataSource.getRepository(Situations);
+        const situations = await situationRepository.findOneBy({ id: Number(id) });
+        if (!situations) {
+            res.status(404).json({ message: 'Situação não encontrada.' });
+            return;
+        }
+
+        res.status(200).json(situations);
+        return;
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Erro ao listar situações.' });
+        return;
+    }
+});
+
+router.get('/', async (req: Request, res: Response) => {
+    try {
+        const situationRepository = AppDataSource.getRepository(Situations);
+        const situations = await situationRepository.find();
+
+        res.status(200).json(situations);
+        return;
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Erro ao listar situações.' });
+        return;
+    }
 });
 
 router.post('/', async (req: Request, res: Response) => {
-    try{
-        var data = req.body;
-
+    try {
         const situationRepository = AppDataSource.getRepository(Situations);
-
-        const newSituation = situationRepository.create(data);
+        const newSituation = situationRepository.create(req.body);
 
         await situationRepository.save(newSituation);
 
@@ -22,9 +48,8 @@ router.post('/', async (req: Request, res: Response) => {
             message: 'Situação cadastrada com sucesso!',
             situation: newSituation
         });
-    }catch(error){
+    } catch (error) {
         res.status(500).json({ message: 'Erro ao cadastrar situação.' });
-
     }
 });
 
