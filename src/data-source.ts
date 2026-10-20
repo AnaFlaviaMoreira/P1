@@ -26,8 +26,5 @@ export const AppDataSource = new DataSource({
     migrations: [__dirname + "/migration/*.js"],
 });
 
-AppDataSource.initialize().then(() => {
-    console.log("Conexão com o banco de dados realizada com sucesso!")
-}).catch((error) => {
-    console.error("Erro ao conectar com o banco de dados:", error)
-})
+// A conexão é aberta por quem usa o AppDataSource (index.ts, run-seeds.ts e o CLI do TypeORM).
+// Não chamar initialize() aqui, senão a conexão é aberta duas vezes e os comandos não terminam.

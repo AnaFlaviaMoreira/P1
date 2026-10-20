@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import { AppDataSource } from './data-source';
 
 dotenv.config();
 
@@ -28,8 +29,15 @@ app.use('/product-situations', ProductSituationsController);
 app.use('/product-categories', ProductCategoriesController);
 app.use('/products', ProductsController);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Servidor rodando na porta ${process.env.PORT}: http://localhost:${process.env.PORT}`);
+// Só inicia o servidor depois que a conexão com o banco de dados estiver pronta
+AppDataSource.initialize().then(() => {
+    console.log("Conexão com o banco de dados realizada com sucesso!");
+
+    app.listen(process.env.PORT, () => {
+        console.log(`Servidor rodando na porta ${process.env.PORT}: http://localhost:${process.env.PORT}`);
+    });
+}).catch((error) => {
+    console.error("Erro ao conectar com o banco de dados:", error);
 });
 
 
