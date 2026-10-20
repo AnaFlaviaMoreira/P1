@@ -25,10 +25,47 @@ router.get('/:id', async (req: Request, res: Response) => {
 
 router.get('/', async (req: Request, res: Response) => {
     try {
-        const situationRepository = AppDataSource.getRepository(Situations);
-        const situations = await situationRepository.find();
 
-        res.status(200).json(situations);
+        const situationRepository = AppDataSource.getRepository(Situations);
+
+        const page = parseInt(req.query.page as string) || 1;
+
+        const limit = 1;
+
+        const totalSituations = await situationRepository.count();
+
+        if (totalSituations === 0) {
+            res.status(400).json({ message: 'Nenhuma situação encontrada.' });
+            return;
+        }
+
+        const lastPage = Math.ceil(totalSituations / limit);
+
+        if (page > lastPage) {
+            res.status(400).json({ message: 'Página inválida. O total de páginas é ' + lastPage + '.' });
+            return;
+        }
+
+        const offset = (page - 1) * limit;
+
+
+
+        const situations = await situationRepository.find({
+            take: limit,
+            skip: offset,
+            order: {
+                id: 'DESC'
+            }
+
+
+        });
+
+        res.status(200).json({
+            currentPage: page,
+            lastPage: lastPage,
+            totalSituations: totalSituations,
+            situations: situations
+        });
         return;
     }
     catch (error) {
