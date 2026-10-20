@@ -1,6 +1,7 @@
 ﻿import express, { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { Situations } from '../entity/Situations';
+import { PaginationServices } from '../services/PaginationServices';
 
 const router = express.Router();
 
@@ -28,44 +29,14 @@ router.get('/', async (req: Request, res: Response) => {
 
         const situationRepository = AppDataSource.getRepository(Situations);
 
-        const page = parseInt(req.query.page as string) || 1;
+        const page = Number(req.query.page) || 1;
 
-        const limit = 1;
+        const limit = Number(req.query.limit) || 10;
 
-        const totalSituations = await situationRepository.count();
+        const result = await PaginationServices.paginate(situationRepository, page, limit, { id: "DESC" });
 
-        if (totalSituations === 0) {
-            res.status(400).json({ message: 'Nenhuma situação encontrada.' });
-            return;
-        }
+        res.status(200).json(result);
 
-        const lastPage = Math.ceil(totalSituations / limit);
-
-        if (page > lastPage) {
-            res.status(400).json({ message: 'Página inválida. O total de páginas é ' + lastPage + '.' });
-            return;
-        }
-
-        const offset = (page - 1) * limit;
-
-
-
-        const situations = await situationRepository.find({
-            take: limit,
-            skip: offset,
-            order: {
-                id: 'DESC'
-            }
-
-
-        });
-
-        res.status(200).json({
-            currentPage: page,
-            lastPage: lastPage,
-            totalSituations: totalSituations,
-            situations: situations
-        });
         return;
     }
     catch (error) {
