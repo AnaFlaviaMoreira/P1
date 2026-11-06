@@ -60,3 +60,8 @@ npx typeorm migration:run -d dist/data-source.js
 
 Executar as seeds para cadastrar registro de teste nas tabelas no banco de dados.
 node dist/run-seeds.js
+
+
+--------
+Validar formulário
+npm i yup

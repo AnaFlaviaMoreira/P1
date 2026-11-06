@@ -20,7 +20,8 @@
     "express": "^5.2.1",
     "mysql2": "^3.24.4",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.20",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",
