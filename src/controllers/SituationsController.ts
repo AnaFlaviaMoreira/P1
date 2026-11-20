@@ -3,6 +3,7 @@ import { AppDataSource } from '../data-source';
 import { Situations } from '../entity/Situations';
 import { PaginationServices } from '../services/PaginationServices';
 import * as yup from 'yup';
+import { Not } from 'typeorm';
 
 const router = express.Router();
 
@@ -55,6 +56,16 @@ router.post('/', async (req: Request, res: Response) => {
         });
         await schema.validate(data, { abortEarly: false });
         const situationRepository = AppDataSource.getRepository(Situations);
+
+        const existingSituation = await situationRepository.findOne({ 
+            where: { nameSituation: data.nameSituation }
+         });
+
+        if (existingSituation) {
+            res.status(400).json({ message: 'Já existe uma situação com esse nome.' });
+            return;
+        }
+
         const newSituation = situationRepository.create(req.body);
 
         await situationRepository.save(newSituation);
@@ -91,6 +102,15 @@ router.put('/:id', async (req: Request, res: Response) => {
             res.status(404).json({ message: 'Situação não encontrada.' });
             return;
         }
+        
+        const existingSituation = await situationRepository.findOne({
+            where: { nameSituation: data.nameSituation, id: Not(Number(id)) }
+        });
+
+        if (existingSituation) {
+            res.status(400).json({ message: 'Já existe uma situação com esse nome.' });
+            return;
+        }
 
         situationRepository.merge(situations, data);
         const updatedSituation = await situationRepository.save(situations);
@@ -118,11 +138,15 @@ router.delete('/:id', async (req: Request, res: Response) => {
         const { id } = req.params;
         
         const situationRepository = AppDataSource.getRepository(Situations);
+
+
+
         const situations = await situationRepository.findOneBy({ id: Number(id) });
         if (!situations) {
             res.status(404).json({ message: 'Situação não encontrada.' });
             return;
         }
+        
 
         await situationRepository.remove(situations);
 
